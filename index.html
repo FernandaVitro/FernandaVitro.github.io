@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevHub Blueprint — Trilha Profissional de TI</title>
+    <style>
+        /* -------------------------------------------------------------
+            RESET SYSTEM & COMPONENT VARIABLES
+        ------------------------------------------------------------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --bg-site: #f8fafc;
+            --bg-card: #ffffff;
+            --border-ui: #e2e8f0;
+            --border-hover: #cbd5e1;
+            --text-title: #0f172a;
+            --text-body: #334155;
+            --text-muted: #64748b;
+            --primary: #2563eb;
+            --primary-dark: #0f172a;
+            --primary-hover: #1e293b;
+            --gray-subtle: #f1f5f9;
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-site);
+            color: var(--text-body);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* -------------------------------------------------------------
+            NAVBAR (MENU SUPERIOR DE NAVEGAÇÃO REAL)
+        ------------------------------------------------------------- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 72px;
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 max(2rem, 5vw);
+        }
+
+        .nav-brand {
+            font-weight: 700;
+            font-size: 1.05rem;
+            letter-spacing: -0.02em;
+            color: var(--text-title);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-item a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-item a:hover {
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 1.5rem;
+            }
+            .nav-menu {
+                display: none; /* Mobile simplificado mantido */
+            }
+        }
+
+        /* -------------------------------------------------------------
+            HERO SECTION (ENTRADA DO SITE)
+        ------------------------------------------------------------- */
+        .hero-section {
+            padding: 180px 1.5rem 120px 1.5rem;
+            text-align: center;
+            max-width: 840px;
+            margin: 0 auto;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            padding: 0.4rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 2px rgba(37, 99, 235, 0.05);
+        }
+
+        .hero-section h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 1.15;
+            color: var(--text-title);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-section p {
+            font-size: clamp(1.1rem, 2vw, 1.25rem);
+            color: var(--text-muted);
+            max-width: 640px;
+            margin: 0 auto 3rem auto;
+        }
+
+        .cta-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(180deg, var(--primary-hover) 0%, var(--primary-dark) 100%);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 0.9rem 2.2rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(15, 23, 42, 0.2);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-card);
+            color: var(--text-body);
+            text-decoration: none;
+            padding: 0.9rem 2.2rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border: 1px solid var(--border-ui);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--gray-subtle);
+            border-color: var(--border-hover);
+            color: var(--text-title);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding-top: 140px;
+                padding-bottom: 80px;
+            }
+            .cta-group {
+                flex-direction: column;
+                gap: 0.75rem;
+                padding: 0 1rem;
+            }
+        }
+
+        /* -------------------------------------------------------------
+            LAYOUT E CONTAINER DE CONTEÚDO
+        ------------------------------------------------------------- */
+        .content-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .site-section {
+            padding: 8rem 0;
+            border-top: 1px solid var(--border-ui);
+        }
+
+        .section-meta {
+            margin-bottom: 4rem;
+        }
+
+        .section-meta h2 {
+            font-size: clamp(1.75rem, 3vw, 2.25rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--text-title);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-meta p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+        }
+
+        /* Bento / Grid de Módulos */
+        .interactive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .module-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-ui);
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .module-card:hover {
+            border-color: var(--border-hover);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            transform: translateY(-4px);
+        }
+
+        .module-card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-title);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .module-card p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        /* Listas Internas */
+        .card-features {
+            list-style: none;
+            margin-bottom: 2.5rem;
+            margin-top: auto; /* Empurra a lista e as tags para o final caso o texto varie */
+        }
+
+        .card-features li {
+            font-size: 0.95rem;
+            color: var(--text-body);
+            margin-bottom: 0.75rem;
+            padding-left: 1.75rem;
+            position: relative;
+        }
+
+        .card-features li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* Badges de Código / Tags */
+        .pill-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            border-top: 1px solid var(--border-ui);
+            padding-top: 1.75rem;
+        }
+
+        .pill-tag {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background-color: var(--gray-subtle);
+            color: var(--text-body);
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-ui);
+            transition: all 0.2s ease;
+        }
+
+        .module-card:hover .pill-tag {
+            background-color: #fff;
+            border-color: var(--border-hover);
+        }
+
+        /* -------------------------------------------------------------
+            FOTO DE PERFIL / BIO (BENTO DESIGN)
+        ------------------------------------------------------------- */
+        .profile-section {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 4rem;
+            align-items: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border-ui);
+            border-radius: 24px;
+            padding: 3.5rem;
+            margin-bottom: 4rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .profile-image-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .profile-photo {
+            width: 100%;
+            height: 320px;
+            border-radius: 16px;
+            object-fit: cover;
+            border: 1px solid var(--border-ui);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            filter: grayscale(10%) contrast(105%);
+        }
+
+        .profile-bio h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--text-title);
+            margin-bottom: 1.25rem;
+        }
+
+        .profile-bio p {
+            font-size: 1.1rem;
+            margin-bottom: 1.25rem;
+            color: var(--text-body);
+        }
+
+        .profile-bio p:last-child {
+            margin-bottom: 0;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 900px) {
+            .profile-section {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+                padding: 2.5rem;
+                text-align: center;
+            }
+            .profile-photo {
+                max-width: 280px;
+                height: 280px;
+            }
+        }
+
+        /* -------------------------------------------------------------
+            SEÇÃO COMPARATIVA DE CURSOS (ESTILO DASHBOARD LADO A LADO)
+        ------------------------------------------------------------- */
+        .split-dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border: 1px solid var(--border-ui);
+            background-color: var(--bg-card);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+        }
+
+        .dashboard-lane {
+            padding: 4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .dashboard-lane:first-child {
+            border-right: 1px solid var(--border-ui);
+            background-color: rgba(248, 250, 252, 0.6);
+        }
+
+        .dashboard-lane h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-title);
+            margin-bottom: 1.25rem;
+            letter-spacing: -0.02em;
+        }
+
+        .dashboard-lane p {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-bottom: 2.5rem;
+            flex-grow: 1;
+        }
+
+        .dashboard-lane .pill-tag {
+            background-color: #fff;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .split-dashboard {
+                grid-template-columns: 1fr;
+            }
+            .dashboard-lane:first-child {
+                border-right: none;
+                border-bottom: 1px solid var(--border-ui);
+            }
+            .dashboard-lane {
+                padding: 2.5rem;
+            }
+        }
+
+        /* -------------------------------------------------------------
+            SITE FOOTER (RODAPÉ CORPORATIVO)
+        ------------------------------------------------------------- */
+        .site-footer {
+            background-color: var(--primary-dark);
+            color: #ffffff;
+            border-radius: 24px;
+            padding: 5rem 4rem;
+            margin: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Detalhe estético sutil de fundo no rodapé */
+        .site-footer::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(37,99,235,0.15) 0%, rgba(0,0,0,0) 70%);
+            pointer-events: none;
+        }
+
+        .footer-content {
+            max-width: 840px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .site-footer h2 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+        }
+
+        .site-footer p {
+            color: #94a3b8;
+            font-size: 1.15rem;
+            line-height: 1.75;
+            margin-bottom: 3rem;
+        }
+
+        .footer-metrics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .metric-pill {
+            background-color: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.6rem 1.25rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #f1f5f9;
+            letter-spacing: 0.01em;
+            transition: background-color 0.2s;
+        }
+
+        .metric-pill:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        @media (max-width: 768px) {
+            .site-footer {
+                padding: 3.5rem 2rem;
+                margin: 4rem 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV BAR (MENU SUPERIOR FIXO) -->
+    <nav class="navbar">
+        <div class="nav-brand">Fernanda Rafaela Silva Vitro</div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="#tecnologias">Tecnologias</a></li>
+            <li class="nav-item"><a href="#engenharia">Engenharia</a></li>
+            <li class="nav-item"><a href="#academico">Acadêmico</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO SECTION (ESTRUTURA DE APRESENTAÇÃO DO SITE) -->
+    <header class="hero-section">
+        <div class="hero-tag">Planejamento de Carreira TI</div>
+        <h1>Engenharia de Software</h1>
+        <p>Diretrizes práticas e arquiteturais para desenvolvedores com foco em Ciência da Computação na Unoeste.</p>
+        <div class="cta-group">
+            <a href="#tecnologias" class="btn-primary">Explorar Trilha</a>
+            <a href="#academico" class="btn-secondary">Análise de Universidades</a>
+        </div>
+    </header>
+
+    <!-- CONTAINER PRINCIPAL DO SITE -->
+    <div class="content-container">
+
+        <!-- SEÇÃO 01: TECNOLOGIAS -->
+        <section class="site-section" id="tecnologias">
+            <div class="section-meta">
+                <h2>01. Stack Tecnológica Core</h2>
+                <p>O ecossistema mandatório para construção de softwares escaláveis.</p>
+            </div>
+
+            <!-- PERFIL INTEGRADO ESTILO BENTO BOX -->
+            <section class="profile-section">
+                <div class="profile-image-container">
+                    <img src="Gemini_Generated_Image_2flrvd2flrvd2flr.png" alt="Foto de Perfil" class="profile-photo">
+                </div>
+                <div class="profile-bio">
+                    <h2>Fernanda Rafaela Silva Vitro</h2>
+                    <p>Desenvolvedora focada em Engenharia de Software, arquitetura de aplicações modernas e desenvolvimento full stack.</p>
+                    <p>Atualmente aprofundando conhecimentos em interfaces modernas, bancos de dados, APIs REST e tecnologias web escaláveis.</p>
+                </div>
+            </section>
+
+            <div class="interactive-grid">
+                <!-- Card 1 -->
+                <div class="module-card">
+                    <h3>Interfaces & Front-End</h3>
+                    <p>Desenvolvimento focado em usabilidade, performance de renderização e componentização moderna.</p>
+                    <ul class="card-features">
+                        <li>Lógica de programação avançada</li>
+                        <li>Desenvolvimento Mobile-First</li>
+                        <li>Consumo assíncrono de APIs REST</li>
+                    </ul>
+                    <div class="pill-box">
+                        <span class="pill-tag">HTML5</span>
+                        <span class="pill-tag">CSS3</span>
+                        <span class="pill-tag">JavaScript</span>
+                        <span class="pill-tag">React</span>
+                        <span class="pill-tag">Next.js</span>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="module-card">
+                    <h3>Arquitetura de Dados</h3>
+                    <p>Gerenciamento rigoroso de persistência, modelagem relacional, integridade e otimização de queries.</p>
+                    <ul class="card-features">
+                        <li>Modelagem de dados e Relacionamentos</li>
+                        <li>Normalização de Tabelas (1FN a 3FN)</li>
+                        <li>Automação via Procedures e Triggers</li>
+                    </ul>
+                    <div class="pill-box">
+                        <span class="pill-tag">SQL</span>
+                        <span class="pill-tag">PostgreSQL</span>
+                        <span class="pill-tag">MySQL</span>
+                        <span class="pill-tag">MongoDB</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 02: ENGENHARIA E MERCADO -->
+        <section class="site-section" id="engenharia">
+            <div class="section-meta">
+                <h2>02. Prática & Metodologias de Produção</h2>
+                <p>As competências corporativas mais exigidas por times globais de engenharia.</p>
+            </div>
+
+            <div class="interactive-grid">
+                <!-- Card 1 -->
+                <div class="module-card">
+                    <h3>Controle de Versão e Portfólio</h3>
+                    <p>Governança de código-fonte estruturada utilizando fluxos de trabalho modernos e portfólio ativo.</p>
+                    <ul class="card-features">
+                        <li>Gestão profissional de branches e commits</li>
+                        <li>Resolução limpa de conflitos em equipe</li>
+                        <li>Portfólio estruturado em repositórios públicos</li>
+                    </ul>
+                    <div class="pill-box">
+                        <span class="pill-tag">Git</span>
+                        <span class="pill-tag">GitHub</span>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="module-card">
+                    <h3>Projetos de Aplicação Real</h3>
+                    <p>Desenvolvimento focado em portar soluções completas e funcionais para o mercado.</p>
+                    <ul class="card-features">
+                        <li>Sistemas de Autenticação e proteção de rotas</li>
+                        <li>Dashboards com tratamento analítico de dados</li>
+                        <li>Aplicações ponta a ponta (Full-Stack/Mobile)</li>
+                    </ul>
+                    <div class="pill-box">
+                        <span class="pill-tag">CRUD</span>
+                        <span class="pill-tag">REST APIs</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 03: AMBIENTE ACADÊMICO -->
+        <section class="site-section" id="academico">
+            <div class="section-meta">
+                <h2>03. Direcionamento Acadêmico</h2>
+                <p>Comparativo estrutural das grades curriculares e mapeamento de universidades.</p>
+            </div>
+
+            <!-- Dashboard de Cursos -->
+            <div class="split-dashboard" style="margin-bottom: 2.5rem;">
+                <div class="dashboard-lane">
+                    <h3>Ciência da Computação</h3>
+                    <p>Abordagem teórica de engenharia profunda. Foco massivo em estruturas matemáticas, análise assintótica de algoritmos, inteligência artificial e a base fundamental da computação pura.</p>
+                    <span class="pill-tag">Perfil Estrutural / Científico</span>
+                </div>
+                <div class="dashboard-lane">
+                    <h3>Análise e Desenv. de Sistemas (ADS)</h3>
+                    <p>Formação pragmática voltada à aceleração técnica de mercado. Carga matemática reduzida com foco em arquitetura aplicada, entrega de sistemas corporativos e gestão ágil de projetos.</p>
+                    <span class="pill-tag">Perfil Prático / Mercadológico</span>
+                </div>
+            </div>
+
+            <div class="interactive-grid">
+                <!-- Universidades Públicas -->
+                <div class="module-card">
+                    <h3>Instituições Públicas de Destaque</h3>
+                    <ul class="card-features">
+                        <li><strong>USP</strong> — Universidade de São Paulo</li>
+                        <li><strong>UNICAMP</strong> — Universidade Estadual de Campinas</li>
+                        <li><strong>UNESP</strong> — Universidade Estadual Paulista</li>
+                        <li><strong>UFSCar</strong> — Universidade Federal de São Carlos</li>
+                    </ul>
+                </div>
+
+                <!-- Universidades Privadas -->
+                <div class="module-card">
+                    <h3>Instituições Privadas de Destaque</h3>
+                    <ul class="card-features">
+                        <li><strong>Unoeste</strong> — Foco estratégico regional (Presidente Prudente)</li>
+                        <li><strong>FIAP</strong> — Referência em inovação tecnológica corporativa</li>
+                        <li><strong>PUC / Mackenzie</strong> — Tradicionais com alta rede de networking</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- RODAPÉ/CONCLUSÃO (ESTILO PREMIUM BANNER) -->
+        <footer class="site-footer">
+            <div class="footer-content">
+                <h2>Conclusão Estratégica</h2>
+                <p>A graduação universitária (como o plano de cursar Ciência da Computação na Unoeste) confere o embasamento acadêmico, o diploma institucional e a base relacional necessária. Contudo, a ascensão como um engenheiro de software sênior depende estritamente da autodidaxia: desenvolvimento de portfólio sólido em repositórios públicos, fluência em inglês técnico para documentação e prática diária em projetos reais de ponta a ponta.</p>
+                <div class="footer-metrics">
+                    <div class="metric-pill">Prática Deliberada</div>
+                    <div class="metric-pill">Código Público (GitHub)</div>
+                    <div class="metric-pill">Inglês Técnico Ativo</div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+
+</html>
